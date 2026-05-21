@@ -1,0 +1,136 @@
+"use client";
+
+// Import React hook for managing state
+import { useState } from "react";
+
+/*
+  Dummy news data.
+  Later this will come from the Hacker News API.
+*/
+const dummyNews = [
+  {
+    id: 1,
+    title: "AI Agents are Growing Fast",
+    summary:
+      "AI agents are becoming important in modern software development...",
+    author: "john",
+    score: 320,
+    url: "https://example.com",
+  },
+  {
+    id: 2,
+    title: "Open Source LLMs are Improving",
+    summary: "Open-source AI models are rapidly catching up...",
+    author: "alex",
+    score: 210,
+    url: "https://example.com",
+  },
+  {
+    id: 3,
+    title: "Future of Full Stack AI",
+    summary: "Developers are combining AI with web apps...",
+    author: "mike",
+    score: 450,
+    url: "https://example.com",
+  },
+];
+
+/*
+  Main homepage component
+*/
+export default function Home() {
+  /*
+    State for what user is typing
+  */
+  const [search, setSearch] = useState("");
+
+  /*
+    State for actual submitted search
+    Search only happens after clicking button
+  */
+  const [submittedSearch, setSubmittedSearch] = useState("");
+
+  /*
+    State for number of results to display
+  */
+  const [resultCount, setResultCount] = useState(10);
+
+  const [submittedResultCount, setSubmittedResultCount] = useState(10);
+
+  /*
+    Filter news based on submitted search keyword
+  */
+  const filteredNews = dummyNews.filter((news) =>
+    news.title.toLowerCase().includes(submittedSearch.toLowerCase()),
+  );
+
+  return (
+    <main className="min-h-screen bg-black text-white p-10">
+      {/* Website Title */}
+      <h1 className="text-4xl font-bold mb-10">TechPulse</h1>
+
+      {/* Search Section */}
+      <div className="flex gap-4 mb-10">
+        {/* Search Input */}
+        <input
+          type="text"
+          placeholder="Start searching here..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1 p-3 rounded-lg text-white"
+        />
+
+        {/* Number of Results Input */}
+        <input
+          type="number"
+          min="0"
+          value={resultCount}
+          onChange={(e) => setResultCount(Number(e.target.value))}
+          className="w-24 p-3 rounded-lg text-white"
+        />
+
+        {/* Search Button */}
+        <button
+          onClick={() => {
+            setSubmittedSearch(search);
+            setSubmittedResultCount(resultCount);
+          }}
+          className="bg-blue-600 px-6 py-3 rounded-lg"
+        >
+          Search
+        </button>
+      </div>
+
+      {/* News Results Section */}
+      <div className="space-y-6">
+        {filteredNews.slice(0, submittedResultCount).map((news) => (
+          <div key={news.id} className="bg-gray-900 p-6 rounded-xl">
+            {/* News Title */}
+            <h2 className="text-2xl font-semibold mb-2">{news.title}</h2>
+
+            {/* News Summary */}
+            <p className="text-gray-400 mb-4">{news.summary}</p>
+
+            {/* Bottom Row */}
+            <div className="flex justify-between items-center">
+              {/* Author and Score */}
+              <div>
+                <p>Author: {news.author}</p>
+                <p>Score: {news.score}</p>
+              </div>
+
+              {/* External Link */}
+              <a
+                href={news.url}
+                target="_blank"
+                className="bg-white text-black px-4 py-2 rounded-lg"
+              >
+                Read More
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  );
+}
