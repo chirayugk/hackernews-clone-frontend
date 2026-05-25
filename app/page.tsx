@@ -78,7 +78,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white p-10">
       {/* Website Title */}
-      <h1 className="text-4xl font-bold mb-10">TechPulse</h1>
+      <h1 className="text-4xl font-bold mb-10">TechPulse 2.0</h1>
 
       {/* Search Section */}
       <SearchBar
